@@ -1,0 +1,26 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block tilte %}  My hotel  {% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div id="header">
+    <span class="logo">HOTEL</span>
+
+    <ul class="menu">
+      <li >
+        <a href="#">Image button </a>
+      </li>
+    </ul>
+    </div>
+
+      <div id="content">
+    {% block content %}
+    {% endblock %}
+      </div>
+</body>
+</html>

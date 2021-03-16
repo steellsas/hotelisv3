@@ -1,0 +1,39 @@
+{% extends "hotel/home.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ room.title }}{% else %}Rooms{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="room-detail">
+
+    {% if images %}
+        {% for im in images %}
+                 <img src="{{ im.image.url }}">
+
+        {% endfor %}
+    {% else %}
+            <img src="{% static 'img/no_image.png' %} ">
+        {% endif %}
+
+
+    <h1>{{ room.title }}</h1>
+    <h2>
+      <a href="{{ room.category.get_absolute_url }}">
+        {{ room.category }}
+      </a>
+    </h2>
+    <p class="price">${{ room.price }}</p>
+       kambario id {{room.id}}
+    {{ room.description|linebreaks }}
+
+       {% for p in prop %}
+               <ul>  {{ p }} </ul>
+
+        {% endfor %}
+
+  </div>
+
+
+{% endblock %}
+
