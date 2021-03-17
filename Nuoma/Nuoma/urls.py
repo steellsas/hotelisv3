@@ -8,7 +8,9 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
+    path('cart/', include('cart.urls', namespace='cart')),
     path('', include('rooms.urls', namespace='rooms')),
+
 ]
 
 if settings.DEBUG:

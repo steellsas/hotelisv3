@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rooms.models import Room, Category, RoomImage
+from cart.forms import CartAddRoomForm
 
 
 def get_room_id(object):
@@ -15,6 +16,7 @@ def room_list(request, category_slug=None):
     categories = Category.objects.all()
     rooms = Room.objects.filter(visible=True)
     imag = RoomImage.objects.all()
+
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         rooms = Room.objects.filter(category=category,  visible=True)
@@ -49,10 +51,12 @@ def room_detail(request, id, slug):
 
     images = RoomImage.objects.filter(room_id=room.id)
     prop = room.properties1.all()
+    cart_room_form = CartAddRoomForm()
 
     return render(request,
                   'hotel/rooms/detail.html',
                   {'room': room,
                    'images': images,
-                   'prop': prop})
+                   'prop': prop,
+                   'cart_room_form': cart_room_form})
 

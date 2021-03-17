@@ -1,0 +1,61 @@
+{% extends "hotel/home.html" %}
+{% load static %}
+    {% block title %}
+        Your shopping cart
+    {% endblock %}
+
+{% block content %}
+    <h1> Jūsų pasirinkti kambariai</h1>
+        <table class="cart">
+            <thead>
+                <tr>
+                <th>Image</th>
+                <th>Kambarys</th>
+                <th>Atvykimo diena</th>
+                <th>Išvykimo diena</th>
+                <th>Remove</th>
+                <th>Dienos kaina</th>
+
+                </tr>
+            </thead>
+
+        <tbody>
+            {% for item in cart %}
+            {% with room=item.room %}
+                <tr>
+                    <td>
+                        <a href="{{ room.get_absolute_url }}">
+                        <img src="{% if room.image %}{{ room.image.url}}
+                                     {% else %}
+                                     {% static "img/no_image.png" %}
+                                  {% endif %}">
+                        </a>
+                    </td>
+                        <td>{{ room.name }}</td>
+                        <td>{{ item.start_day }}</td>
+                        <td>{{ item.end_day }}</td>
+                    <td>
+                    <form action="{% url 'cart:cart_remove' room.id %}"  method="post">
+                     <input type="submit" value="Remove">
+                     {% csrf_token %}
+                    </form>
+                    </td>
+                    <td class="num"> Eur{{ item.price }}</td>
+
+                    </tr>
+            {% endwith %}
+            {% endfor %}
+                    <tr class="total">
+                       <td>Total</td>
+                        <td colspan="4"></td>
+                        <td class="num">${{ cart.get_total_price }}</td>
+                    </tr>
+            </tbody>
+         </table>
+         <p class="text-right">
+            <a href="{% url 'rooms:room_list' %}" class="button light">Continue shopping</a>
+             <a href="#" class="button">Checkout</a>
+        </p>
+{% endblock %}
+
+

@@ -31,7 +31,11 @@
                <ul>  {{ p }} </ul>
 
         {% endfor %}
-
+      <form action="{% url "cart:cart_add" room.id %}" method="post">
+        {{ cart_room_form }}
+        {% csrf_token %}<input type="submit" value="Add to cart">
+        </form>
+        {{ room.description|linebreaks }}
   </div>
 
 
