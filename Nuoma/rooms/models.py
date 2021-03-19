@@ -35,7 +35,8 @@ class Room(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     visible = models.BooleanField(default=False)
-    properties1 = models.ManyToManyField(Property, null= True)
+    properties1 = models.ManyToManyField(Property, null = True)
+    first_image = models.ImageField(upload_to='room/first/', null=True)
 
     class Meta:
         ordering = ('title',)

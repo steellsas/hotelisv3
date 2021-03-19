@@ -24,8 +24,8 @@
             {% for room in rooms %}
                 <div class="item">
                     <a href="{{ room.get_absolute_url }}">
-                        <img src="{% if room.photo_id.photo %}{{ room.photo_id.photo.url }}{%else %}
-                     {% static "img/no_image.png" %} {% endif %}"></a>
+                        <img src="{% if room.first_image %}{{ room.first_image.url }}{%else %}
+                     {% static 'img/no_image.png' %} {% endif %}"></a>
                     <a href="{{ room.get_absolute_url }}">{{ room.title }}</a>
 
                    <br>

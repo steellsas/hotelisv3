@@ -25,22 +25,41 @@
                 <tr>
                     <td>
                         <a href="{{ room.get_absolute_url }}">
-                        <img src="{% if room.image %}{{ room.image.url}}
+                        <img src="{% if room.first_image %}{{ room.first_image.url}}
                                      {% else %}
                                      {% static "img/no_image.png" %}
                                   {% endif %}">
                         </a>
                     </td>
-                        <td>{{ room.name }}</td>
-                        <td>{{ item.start_day }}</td>
-                        <td>{{ item.end_day }}</td>
-                    <td>
-                    <form action="{% url 'cart:cart_remove' room.id %}"  method="post">
-                     <input type="submit" value="Remove">
+                        <td>{{ room.title }}</td>
+
+                     <td>{{ item.quantity }}</td>
+                     <td>
+<!--                        <form action="{% url "cart:cart_add" room.id %}" method="post">-->
+<!--                            {{ item.update_quantity_form.quantity }}-->
+<!--                            {{ item.update_quantity_form.override }}-->
+<!--                            <input type="submit" value="Update">-->
+<!--                            {% csrf_token %}-->
+<!--                        </form>-->
+
+                         <td>
+                    <form action="{% url "cart:cart_remove" room.id %}" method="post">
+                    <input type="submit" value="Remove">
                      {% csrf_token %}
                     </form>
-                    </td>
+                    </td
+<!--                        <td>{{ item.day }}</td>-->
+                      <td>{{ item.price }}</td>
+                        <td >iekis {{item.quantity}} </td>
+<!--                      <td>{{ item.moth}}</td>-->
+<!--                    <td>-->
+<!--                    <form action="{% url 'cart:cart_remove' room.id %}"  method="post">-->
+<!--                     <input type="submit" value="Remove">-->
+<!--                     {% csrf_token %}-->
+<!--                    </form>-->
+<!--                    </td>-->
                     <td class="num"> Eur{{ item.price }}</td>
+
 
                     </tr>
             {% endwith %}

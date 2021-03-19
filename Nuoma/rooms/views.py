@@ -21,7 +21,7 @@ def room_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         rooms = Room.objects.filter(category=category,  visible=True)
         id_list = get_room_id(rooms)
-        # print(id_list)
+        print(id_list)
         for id in id_list:
             imag = RoomImage.objects.filter(room_id=id)
 
@@ -53,10 +53,14 @@ def room_detail(request, id, slug):
     prop = room.properties1.all()
     cart_room_form = CartAddRoomForm()
 
+
+
     return render(request,
                   'hotel/rooms/detail.html',
                   {'room': room,
                    'images': images,
-                   'prop': prop,
-                   'cart_room_form': cart_room_form})
+                   'cart_room_form': cart_room_form,
+                   'prop': prop
+                   })
 
+#
