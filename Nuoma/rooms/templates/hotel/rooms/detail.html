@@ -1,4 +1,4 @@
-{% extends "hotel/home.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %}
     {% if category %}{{ room.title }}{% else %}Rooms{% endif %}
@@ -6,17 +6,8 @@
 
 {% block content %}
     <div class="room-detail">
-
-    {% if images %}
-        {% for im in images %}
-                 <img src="{{ im.image.url }}">
-
-        {% endfor %}
-    {% else %}
-            <img src="{% static 'img/no_image.png' %} ">
-        {% endif %}
-
-
+    <img src="{% if room.first_image %}{{ room.first_image.url }}{% else %}
+    {% static "img/no_image.png" %}{% endif %}">
     <h1>{{ room.title }}</h1>
     <h2>
       <a href="{{ room.category.get_absolute_url }}">
@@ -24,22 +15,44 @@
       </a>
     </h2>
     <p class="price">${{ room.price }}</p>
-       kambario id {{room.id}}
+    <form action="{% url "cart:cart_add" room.id %}" method="post">
+     {{ cart_room_form }}
+      {% csrf_token %}
+      <input type="submit" value="Add to cart">
+    </form>
     {{ room.description|linebreaks }}
-
-       {% for p in prop %}
-               <ul>  {{ p }} </ul>
-
+     {% for property in prop %}
+               <ul>  {{ property}} </ul>
         {% endfor %}
-                          <form action="{% url 'cart:cart_add' room.id %}" method="post">
-                            {{ cart_room_form }}
-                            {% csrf_token %}<input type="submit" value="Add to cart">
-                            </form>
-
-                </div>
-
   </div>
 
 
+
+
+{#  <div class="room-detail">#}
+{#     #}
+{#      {% for imag in imags %}#}
+{#    <img src="{% if imag.image.url %}{{ imag.image.url }}{% else %}#}
+{#    {% static 'img/no_image.png' %}{% endif %}">#}
+{#      {% endfor %}#}
+{#    <h1>{{ room.title }}</h1>#}
+{#    <h2>#}
+{#      <a href="{{ room.category.get_absolute_url }}">#}
+{#        {{ room.category }}#}
+{#      </a>#}
+{#    </h2>#}
+{#    <p class="price">${{  room.price }}</p>#}
+{#   <form action="{% url 'cart:cart_add' room.id %}" method="post">#}
+{#    {{ cart_room_form }}#}
+{#    {% csrf_token %}<input type="submit" value="Add to cart">#}
+{#    </form>#}
+{#      {{ room.description|linebreaks }}#}
+{##}
+{#       {% for property in prop %}#}
+{#               <ul>  {{ property}} </ul>#}
+{#        {% endfor %}#}
+{##}
+{##}
+{#  </div>#}
 {% endblock %}
 

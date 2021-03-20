@@ -49,7 +49,7 @@ def room_detail(request, id, slug):
                              slug=slug,
                              visible=True)
 
-    images = RoomImage.objects.filter(room_id=room.id)
+    imags = RoomImage.objects.filter(room_id=room.id)
     prop = room.properties1.all()
     cart_room_form = CartAddRoomForm()
 
@@ -58,7 +58,7 @@ def room_detail(request, id, slug):
     return render(request,
                   'hotel/rooms/detail.html',
                   {'room': room,
-                   'images': images,
+                   'imags': imags,
                    'cart_room_form': cart_room_form,
                    'prop': prop
                    })

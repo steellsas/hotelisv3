@@ -25,9 +25,9 @@ ol {
 #header {
     padding:10px 100px;
     font-size:14px;
-    background:#99c2ff;
+    background: #060bee;
     color:#fff;
-    border-bottom:4px solid #99c2ff;
+    border-bottom:4px solid #0658d2;
     overflow:auto;
 }
 #header .logo {
@@ -54,7 +54,7 @@ a {
 }
 
 a:hover {
-    color:#77b6e2;
+    color: #b7d2e5;
 }
 a.button, input[type="submit"] {
     color:#fff;
@@ -66,17 +66,55 @@ a.button, input[type="submit"] {
 }
 
 a.button.light {
-    color:#666;
+    color: #181717;
     background:#ededed;
 }
 
+table {
+    width:100%;
+    border-spacing:0;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    text-align:left;
+    font-size:14px;
+    padding:10px;
+    margin:0;
+}
+
+tbody tr:nth-child(odd) {
+    background:#efefef;
+}
+
+tbody tr.subtotal {
+    background:#ccc;
+}
+
+thead th, tbody tr.total {
+    background: #5993bb;
+    color:#fff;
+    font-weight:bold;
+}
+
+table.cart {
+    margin-bottom:40px;
+}
+
+table.cart img {
+    width:180px;
+}
+
+tbody td.num {
+    text-align:right;
+}
 #header a {
-    color:#f3f7cc;
+    color: #eff6f6;
 }
 
 input[type=submit], a.button {
     font-weight:bold;
-    background:#12c064;
+    background: #0e2bea;
     color:#fff;
     padding:10px 20px;
     font-size:14px;
@@ -141,3 +179,50 @@ input[type=submit], a.button {
     width:100%;
     margin-bottom:8px;
 }
+
+.room-detail {
+    text-align:justify;
+}
+
+.room-detail .price {
+    color:#333;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.room-detail img {
+    width:40%;
+    float:left;
+    padding:0 20px 20px 0;
+}
+
+.room-detaill h1 {
+    margin-bottom:0;
+}
+
+.room-detail h2 {
+    margin-top:10px;
+}
+
+table.cart {
+    margin-bottom:40px;
+}
+
+table.cart img {
+    width:180px;
+}
+
+tbody td.num {
+    text-align:right;
+}
+
+td input[type="submit"] {
+    font-size:12px;
+    padding:4px 10px;
+}
+
+form p label, form p input {
+    float:left;
+    clear:both;
+}
+

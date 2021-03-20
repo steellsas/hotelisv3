@@ -1,15 +1,11 @@
 from django import forms
 
 
-PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
-
-
 class CartAddRoomForm(forms.Form):
-    quantity = forms.TypedChoiceField(choices=PRODUCT_QUANTITY_CHOICES, coerce=int)
-    # day = forms.DateField()
-    override = forms.BooleanField(required=False,
-                                  initial=False,
-                                  widget=forms.HiddenInput)
+
+    start_day = forms.DateField(input_formats=['%Y-%m-%d'])
+    end_day = forms.DateField(input_formats=['%Y-%m-%d'])
+
 
 #
 # class CartAddRoomForm(forms.Form):

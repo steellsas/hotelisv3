@@ -2,45 +2,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>{% block title %}{% endblock %}</title>
-<link href="{% static "css/base.css" %}" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
 </head>
 <body>
 <div id="header">
 
-
-
-<span class="logo">Bookmarks</span>
-
-    {% if request.user.is_authenticated %}
-        <ul class="menu">
-        <li {% if section == "dashboard" %}class="selected"{% endif %}>
-        <a href="{% url 'dashboard' %}">My dashboard</a>
+    <span class="logo">NUOMA51</span>
+    <ul class="menu">
+        <li {% if section == "Rooms" %}class="selected"{% endif %}>
+            <a href="{% url 'rooms:room_list' %} ">Room List</a>
         </li>
-        <li {% if section == "images" %}class="selected"{% endif %}>
-        <a href="#">Images</a>
-        </li>
-        <li {% if section == "people" %}class="selected"{% endif %}>
-        <a href="#">People</a>
-        </li>
-        </ul>
-    {% endif %}
 
-    <span class="user">
-    {% if request.user.is_authenticated %}
-    Hello {{ request.user.first_name }},
-    <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-    <a href="{% url "login" %}">Log-in</a>
-    {% endif %}
+        <li {% if section == "About" %}class="selected"{% endif %}>
+            <a href="#">Apie mus</a>
+        </li>
 
-</span>
+        {% if request.user.is_authenticated %}
+
+            <li {% if section == "dashboard" %}class="selected"{% endif %}>
+                <a href="{% url 'dashboard' %}"> Tavo užsakymai</a>
+            </li>
+
+            </ul>
+
+
+        {% endif %}
+          <span class="user">
+                {% if request.user.is_authenticated %}
+                    Hello {{ request.user.first_name }},
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url "login" %}">Log-in</a>
+                {% endif %}
+            </span>
+
 </div>
 <div id="content">
-     <p> laba diena <p>
-{% block content %}
-   <p> laba diena bloke <p>
-{% endblock %}
+        {% block content %}
+        {% endblock %}
 </div>
 </body>
 </html>
+
+

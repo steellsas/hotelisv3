@@ -1,43 +1,38 @@
-{% extends "hotel/home.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block title %}
     {% if category %}{{ category.title }}{% else %}Rooms{% endif %}
 {% endblock %}
 
 {% block content %}
-   <div id="sidebar">
-       <h3>Categories</h3>
-       <ul>
-           <li {% if not category %}class="selected"{% endif %}>
-               <a href="{% url "rooms:room_list" %}">All</a>
-           </li>
-           {% for c in categories %}
-           <li {% if category.slug == c.slug %}class="selected" {% endif %}>
-               <a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
-           </li>
-           {% endfor %}
-       </ul>
-   </div>
-   <div id="main" class="room-list">
-        <h1>{% if category %}{{ category.title }}{% else %} Rooms
-            {% endif %}</h1>
-            {% for room in rooms %}
-                <div class="item">
-                    <a href="{{ room.get_absolute_url }}">
-                        <img src="{% if room.first_image %}{{ room.first_image.url }}{%else %}
-                     {% static 'img/no_image.png' %} {% endif %}"></a>
-                    <a href="{{ room.get_absolute_url }}">{{ room.title }}</a>
-
-                   <br>
-                    ${{ room.price }}
-                      {% for i in imag %}
-                              {% if iroom_id == roo.id %}
-                         image:    {{  i.image }}
-                              {% endif%}
-                     {% endfor %}
-                </div>
-
+    <div id="sidebar">
+        <h3>Categories</h3>
+        <ul>
+            <li {% if not category %}class="selected"{% endif %}>
+                <a href="{% url "rooms:room_list" %}">All</a>
+            </li>
+            {% for c in categories %}
+                <li {% if category.slug == c.slug %}class="selected" {% endif %}>
+                    <a href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+                </li>
             {% endfor %}
-   </div>
+        </ul>
+    </div>
+
+    <div id="main" class="room-list">
+    <h1>{% if category %}{{ category.title }}{% else %} Rooms
+    {% endif %}</h1>
+    {% for room in rooms %}
+        <div class="item">
+        <a href="{{ room.get_absolute_url }}">
+            <img src="{% if room.first_image %}{{ room.first_image.url }}{% else %}
+                     {% static 'img/no_image.png' %} {% endif %}"></a>
+        <a href="{{ room.get_absolute_url }}">{{ room.title }}</a>
+
+        <br>
+        ${{ room.price }}
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
 
