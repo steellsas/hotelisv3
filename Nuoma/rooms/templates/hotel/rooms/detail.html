@@ -15,8 +15,8 @@
       </a>
     </h2>
     <p class="price">${{ room.price }}</p>
-    <form action="{% url "cart:cart_add" room.id %}" method="post">
-     {{ cart_room_form }}
+    <form action="{% url "booking:reservation_create" room.id %}" method="post">
+     {{ reservation_days }}
       {% csrf_token %}
       <input type="submit" value="Add to cart">
     </form>
