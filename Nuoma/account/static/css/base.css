@@ -225,4 +225,7 @@ form p label, form p input {
     float:left;
     clear:both;
 }
+div.profile-info{
+  background: #2aabd2;
+}
 

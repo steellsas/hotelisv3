@@ -1,6 +1,48 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-<h1>Dashboard</h1>
-<p>Welcome to your dashboard.</p>
+<H2>Vartotojo sąsaja</H2>
+    <table>
+
+        <td> vardas </td>  <td> {{ request.user.first_name }} </td>  </tr>
+        <td> Pavardė</td> <td> {{ request.user.last_name }}</td>   </tr>
+        <td> El. paštas </td>  <td>{{ request.user.email }}</td>   </tr>
+        <td> Telefonas</td> <td>{{ request.user.profile.phone }} </td>   </tr>
+
+    </table>
+    <h2> Jūsų rezervacija</h2>
+    <table class="cart">
+        <thead>
+        <tr>
+            <th>Nuotrauka</th>
+            <th>Kambarys</th>
+            <th>Atvykimo diena</th>
+            <th>Išvykimo diena</th>
+            <th> Kaina už laikotarpį</th>
+            <th >Avansas</th>
+            <th> Statusas</th>
+        </tr>
+        </thead>
+
+        <tbody>
+                <tr>
+                 {% for item in rezervations  %}
+                    <td>
+{#                       <a href="{{ item.room_id.get_absolute_url }}">#}
+                        <img src="{% if item.room_id.first_image %}{{ item.room_id.first_image.url }}{% else %}
+                              {% static "img/no_image.png" %}{% endif %}">
+{#                        </a>#}
+                    </td>
+                    <td>{{ item.room_id }}</td>
+                    <td>{{ item.start_day }}</td>
+                    <td> {{ item.end_day }} </td>
+                    <td> {{ item.total }} </td>
+                    <td> {{ item.advance}}</td>
+                    <td> {{ item.status}}</td>
+{#                     <td> {{ item.room_id.first_image}}</td>#}
+                </tr>
+                {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

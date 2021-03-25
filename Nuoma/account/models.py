@@ -8,6 +8,6 @@ class Profile(models.Model):
     description = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
-        return f'Profile for user {self.user.name}'
+        return f'Profile for user {self.user.first_name}'
 
 

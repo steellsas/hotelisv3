@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Logged out{% endblock %}
+{% block content %}
+    <h1>Logged out</h1>
+    <p>
+        J8s sekmingai atsijungėte.
+        Galite prisijungti <a href="{% url 'login' %}">Prisijungti</a>.
+    </p>
+{% endblock %}

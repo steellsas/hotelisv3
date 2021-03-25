@@ -20,26 +20,15 @@ def room_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         rooms = Room.objects.filter(category=category,  visible=True)
-        id_list = get_room_id(rooms)
-        print(id_list)
-        for id in id_list:
-            imag = RoomImage.objects.filter(room_id=id)
-
-        # imag = RoomImage.objects.all()
-
-        # img_lst = [x for x in imag if x.room_id in id_list ]
-        # cover_image  = img_lst[0]
-        # print(img_lst)
-        # print('cover',cover_image)
-
+        # id_list = get_room_id(rooms)
+        # for id in id_list:
+        #     imag = RoomImage.objects.filter(room_id=id)
 
     return render(request,
                   'hotel/rooms/list.html',
                   {'category': category,
                    'categories': categories,
-                   'rooms': rooms,
-                    'imag': imag})
-
+                   'rooms': rooms})
 
 
 def room_detail(request, id, slug):
