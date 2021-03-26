@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 {% block title %}
-Thank you
+ Rezrvacija užpildyta
 {% endblock %}
 {% block content %}
-<h1>Thank you</h1>
-<p>Your order has been successfully completed. Your order number is
+<h1> Ačiū Jums </h1>
+    <div>
+         <p> Jūsų rezervacija priimta. Laukite jos patvirtinimo.
+             El. paštu : <strong>{{ request.user.email }}</strong> ,išsiųstas patvirtinimas apie priimtą rezervaciją </p>
+         <p> Rezervuotas kambario pavadnimas <strong>{{res.room_id }}</strong>.</p>
 
-<strong>{{res.total }}</strong>.</p>
+        <form action="{% url 'dashboard' %}">
+        <input type="submit" value="Peržiūrėti" />
+        </form>
+    </div>
 {% endblock %}

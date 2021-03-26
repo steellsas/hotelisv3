@@ -27,12 +27,11 @@
 
         <tbody>
                 <tr>
-                 {% for item in rezervations  %}
+                {% if reservations  %}
+                 {% for item in reservations  %}
                     <td>
-{#                       <a href="{{ item.room_id.get_absolute_url }}">#}
                         <img src="{% if item.room_id.first_image %}{{ item.room_id.first_image.url }}{% else %}
-                              {% static "img/no_image.png" %}{% endif %}">
-{#                        </a>#}
+                           {% static "img/no_image.png" %}{% endif %}">
                     </td>
                     <td>{{ item.room_id }}</td>
                     <td>{{ item.start_day }}</td>
@@ -40,9 +39,15 @@
                     <td> {{ item.total }} </td>
                     <td> {{ item.advance}}</td>
                     <td> {{ item.status}}</td>
-{#                     <td> {{ item.room_id.first_image}}</td>#}
                 </tr>
                 {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td> Nėra rezervacijų.</td>
+                    </tr>
+
+                {%  endif %}
         </tbody>
+
     </table>
 {% endblock %}
