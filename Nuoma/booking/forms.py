@@ -13,6 +13,6 @@ class ReservationForm(ModelForm):
 
 class AddReserveDayForm(forms.Form):
 
-    start_day = forms.DateField(input_formats=['%Y-%m-%d'])
+    start_day = forms.DateTimeField(input_formats=['%Y-%m-%d'])
     end_day = forms.DateField(input_formats=['%Y-%m-%d'])
 

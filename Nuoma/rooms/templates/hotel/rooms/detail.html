@@ -24,35 +24,15 @@
      {% for property in prop %}
                <ul>  {{ property}} </ul>
         {% endfor %}
+
+
   </div>
+      <form action="{% url "booking:reservation_create" room.id %}" method="post">
+     {{ reservation_days }}
+      {% csrf_token %}
+      <input type="submit" value="Add to cart">
+    </form>
 
-
-
-
-{#  <div class="room-detail">#}
-{#     #}
-{#      {% for imag in imags %}#}
-{#    <img src="{% if imag.image.url %}{{ imag.image.url }}{% else %}#}
-{#    {% static 'img/no_image.png' %}{% endif %}">#}
-{#      {% endfor %}#}
-{#    <h1>{{ room.title }}</h1>#}
-{#    <h2>#}
-{#      <a href="{{ room.category.get_absolute_url }}">#}
-{#        {{ room.category }}#}
-{#      </a>#}
-{#    </h2>#}
-{#    <p class="price">${{  room.price }}</p>#}
-{#   <form action="{% url 'cart:cart_add' room.id %}" method="post">#}
-{#    {{ cart_room_form }}#}
-{#    {% csrf_token %}<input type="submit" value="Add to cart">#}
-{#    </form>#}
-{#      {{ room.description|linebreaks }}#}
-{##}
-{#       {% for property in prop %}#}
-{#               <ul>  {{ property}} </ul>#}
-{#        {% endfor %}#}
-{##}
-{##}
 {#  </div>#}
 {% endblock %}
 
