@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rooms.models import Room, Category, RoomImage
-from booking.forms import AddReserveDayForm,ReservationForm
+from booking.forms import AddReserveDayForm,ReservationForm,AuctionForm
 
 
 def get_room_id(object):
@@ -20,9 +20,6 @@ def room_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         rooms = Room.objects.filter(category=category,  visible=True)
-        # id_list = get_room_id(rooms)
-        # for id in id_list:
-        #     imag = RoomImage.objects.filter(room_id=id)
 
     return render(request,
                   'hotel/rooms/list.html',
@@ -41,7 +38,7 @@ def room_detail(request, id, slug):
     imags = RoomImage.objects.filter(room_id=room.id)
     prop = room.properties1.all()
     reservation_days = AddReserveDayForm()
-    rr_form =ReservationForm()
+    auction_form = AuctionForm()
 
 
     return render(request,
@@ -50,7 +47,6 @@ def room_detail(request, id, slug):
                    'imags': imags,
                    'reservation_days': reservation_days,
                    'prop': prop,
-
+                   'auction_form': auction_form
                    })
 
-#
