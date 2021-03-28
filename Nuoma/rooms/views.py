@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rooms.models import Room, Category, RoomImage
-from booking.forms import AddReserveDayForm,ReservationForm,AuctionForm
+from booking.forms import AddReserveDayForm,ReservationForm
 
 
 def get_room_id(object):
@@ -38,7 +38,7 @@ def room_detail(request, id, slug):
     imags = RoomImage.objects.filter(room_id=room.id)
     prop = room.properties1.all()
     reservation_days = AddReserveDayForm()
-    auction_form = AuctionForm()
+
 
 
     return render(request,
@@ -46,7 +46,6 @@ def room_detail(request, id, slug):
                   {'room': room,
                    'imags': imags,
                    'reservation_days': reservation_days,
-                   'prop': prop,
-                   'auction_form': auction_form
+                   'prop': prop
                    })
 

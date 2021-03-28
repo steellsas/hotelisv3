@@ -4,28 +4,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
     <title>{% block title %}{% endblock %}</title>
 
- <!--Import Google Icon Font-->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+       <!--Import Google Icon Font-->
+{#  1    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
       <!--Import materialize.css-->
+{#   2   <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>#}
 
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
  <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+{#      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>#}
 
-
-{#    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.css' %}" rel="stylesheet">#}
-{#    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.css' %}" rel="stylesheet">#}
+    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.css' %}" rel="stylesheet">
+    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.css' %}" rel="stylesheet">
 {#     <link href="{% static 'js/jquery-ui-1.12.1/jquery-ui.theme.min.css' %}" rel="stylesheet">#}
 {##}
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
+
 {##}
-{#    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>#}
+     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 {#    <script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>#}
-{#    <script src="{% static 'js/myjs.js' %}"></script>#}
+
+
+         <link href="{% static "css/base.css" %}" rel="stylesheet">
 
 </head>
 <body>
@@ -33,7 +33,6 @@
 
     <span class="logo">NUOMA51</span>
     <ul class="menu">
-
 
         <li {% if section == "Rooms" %}class="selected"{% endif %}>
             <a href="{% url 'rooms:room_list' %} ">Room List</a>
@@ -44,11 +43,9 @@
         </li>
 
         {% if request.user.is_authenticated %}
-
             <li {% if section == "dashboard" %}class="selected"{% endif %}>
                 <a href="{% url 'dashboard' %}"> Tavo užsakymai</a>
             </li>
-            </ul>
 
         {% endif %}
 
@@ -57,18 +54,23 @@
                     Hello {{ request.user.first_name }},
                     <a href="{% url 'logout' %}">Logout</a>
                 {% else %}
-                    <a href="{% url "login" %}">Log-in</a>
+                     <a href="{% url 'custom_login' %}?next={{request.path}}">Login</a>
+{#                    <a href="{% url "login" %}">Log-in</a>#}
                 {% endif %}
           </span>
-
+    </ul>
 </div>
 <div>
         {% block content %}
         {% endblock %}
+
 </div>
 <!--JavaScript at end of body for optimized loading-->
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-</body>>
+{#      <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"> </script>#}
+
+
+<script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+</body>
 </html>
 
 

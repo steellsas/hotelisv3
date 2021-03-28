@@ -6,51 +6,87 @@
 
 {% block content %}
     <div class="room-detail">
-    <img src="{% if room.first_image %}{{ room.first_image.url }}{% else %}
+        <img src="{% if room.first_image %}{{ room.first_image.url }}{% else %}
     {% static "img/no_image.png" %}{% endif %}">
-    <h1>{{ room.title }}</h1>
-    <h2>
-      <a href="{{ room.category.get_absolute_url }}">
-        {{ room.category }}
-      </a>
-    </h2>
-    <p class="price">${{ room.price }}</p>
-    <form action="{% url "booking:reservation_create" room.id %}" method="post">
-     {{ reservation_days }}
-      {% csrf_token %}
-      <input type="submit" value="Add to cart">
-    </form>
-    {{ room.description|linebreaks }}
-     {% for property in prop %}
-               <ul>  {{ property}} </ul>
+        <h2>{{ room.title }}</h2>
+        <h3>
+            <a href="{{ room.category.get_absolute_url }}">
+                {{ room.category }}
+            </a>
+        </h3>
+
+        <p class="price">{{ room.price }}</p>
+          {{ room.description|linebreaks }}
+        {% for property in prop %}
+            <ul>  {{ property }} </ul>
         {% endfor %}
 
-    <div class="container">
-    <div class="row">
-        <form method="post" ">
-            {{ auction_form.csrf_token }}
+            <form action=" {% url 'booking:reservation_create' room.id %}" method="post">
+                {{ reservation_days }}
+                {% csrf_token %}
+{#                 {% if request.GET.next %}#}
+{#                 <input type="hidden" name="next" value="{{ request.GET.next }}" />#}
+{#            {% endif %}#}
+                <input type="submit" value="Pasirinkite">
+            </form>
 
-            <div class="input-field col s12 m8" ">
-                <i class="material-icons prefix"></i>
-                {{ auction_form.end_day }}
+ </div>
 
-            </div>
 
-            <div class="input-field col s12 m8">
-                <button type="submit" class="btn waves-effect waves-light">Create</button>
-            </div>
-        </form>
-    </div>
-</div>
 
- <script>
-    $(document).ready(function () {
-        $('select').formSelect();
-        $('.datepicker').datepicker({format: 'yyyy-mm-dd'});
 
-    });
+
+{#    <script>#}
+{#        $(document).ready(function () {#}
+{#            $('#id_start_day').datepicker();#}
+{#        });1#}
+{#    </script>#}
+
+{#<script>#}
+{#$(document).ready(function(){#}
+{#    $("#id_start_day").datepicker({changeYear: true,changeMonth: true, dateFormat: 'yy-mm-dd'});#}
+{# );#}
 </script>
+    <script>
+    let unavailableDates = ["2021-05-01","2021-05-02","2021-05-12"];
+
+    $( function() {
+    var dateFormat = "yy-mm-dd",
+      from = $( "#id_start_day" )
+        .datepicker({
+          inline: true,
+          showOn: "both",
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 2,
+          dateFormat: "yy-mm-dd",
+          showButtonPanel: true,
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#id_end_day" ).datepicker({
+        defaultDate: "+3w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        dateFormat: "yy-mm-dd",
+        showButtonPanel: true
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+      return date;
+    }
+  } );
+  </script>
 
 
 {% endblock %}
-
