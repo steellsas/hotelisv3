@@ -5,8 +5,9 @@ app_name = 'booking'
 
 urlpatterns = [
     path('booking/<int:room_id>/', views.reservation_create, name='reservation_create'),
+    path('calendar/', views.show_calendar, name='my_calender'),
     # path('add/<int:room_id>/', views.cart_add, name='cart_add'),
-    # path('remove/<int:room_id>/', views.cart_remove, name='cart_remove'),
+    path('update/<int:res_id>/', views.update_status, name='update_status'),
 ]
 
 

@@ -33,60 +33,114 @@
  </div>
 
 
-
-
-
 {#    <script>#}
-{#        $(document).ready(function () {#}
-{#            $('#id_start_day').datepicker();#}
-{#        });1#}
-{#    </script>#}
+{##}
+{#    $( function() {#}
+{#    let dateFormat = "yy-mm-dd",#}
+{#      from = $( "#id_start_day" )#}
+{#        .datepicker({#}
+{#          inline: true,#}
+{#          showOn: "both",#}
+{#          defaultDate: "+1w",#}
+{#          changeMonth: true,#}
+{#          numberOfMonths: 2,#}
+{#          dateFormat: "yy-mm-dd",#}
+{#          showButtonPanel: true,#}
+{##}
+{#        })#}
+{#        .on( "change", function() {#}
+{#          to.datepicker( "option", "minDate", getDate( this ) );#}
+{#        }),#}
+{#      to = $( "#id_end_day" ).datepicker({#}
+{#        defaultDate: "+3w",#}
+{#        changeMonth: true,#}
+{#        numberOfMonths: 2,#}
+{#        dateFormat: "yy-mm-dd",#}
+{#        showButtonPanel: true#}
+{#      })#}
+{#      .on( "change", function() {#}
+{#        from.datepicker( "option", "maxDate", getDate( this ) );#}
+{#      });#}
+{##}
+{#    function getDate( element ) {#}
+{#      var date;#}
+{#      try {#}
+{#        date = $.datepicker.parseDate( dateFormat, element.value );#}
+{#      } catch( error ) {#}
+{#        date = null;#}
+{#      }#}
+{#      return date;#}
+{#    }#}
+{#  } );#}
+{#  </script>#}
+{#    #}
 
-{#<script>#}
-{#$(document).ready(function(){#}
-{#    $("#id_start_day").datepicker({changeYear: true,changeMonth: true, dateFormat: 'yy-mm-dd'});#}
-{# );#}
-</script>
-    <script>
-    let unavailableDates = ["2021-05-01","2021-05-02","2021-05-12"];
+ <script>
+ $(document).ready(function () {
 
-    $( function() {
-    var dateFormat = "yy-mm-dd",
-      from = $( "#id_start_day" )
-        .datepicker({
-          inline: true,
-          showOn: "both",
+      let holiday = ["2021-05-01","2021-05-02","2021-05-03"]
+      let not_available = '{{ mydate }}'
+
+      let dateFormat = "yy-mm-dd",
+       from = $( "#id_start_day" )
+          .datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            dateFormat: "yy-mm-dd",
+            beforeShowDay: function (date) {
+                  let  day = date.getDay();
+                  if (day == 0 )
+                  {
+                            return [true, "markholiday"];
+                  }
+                  else
+                          {
+                              let formattedDate = jQuery.datepicker.formatDate("yy-mm-dd", date)
+                              return [false,(not_available.indexOf(formattedDate) == -1)?"":"markholiday"];
+                          }
+              }
+          })
+          .on( "change", function() {
+        to.datepicker( "option", "minDate", getDate( this ) );
+      }),
+      //     to
+       to = $( "#id_end_day" ).datepicker({
           defaultDate: "+1w",
           changeMonth: true,
-          numberOfMonths: 2,
+          numberOfMonths: 3,
           dateFormat: "yy-mm-dd",
-          showButtonPanel: true,
-        })
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
-        }),
-      to = $( "#id_end_day" ).datepicker({
-        defaultDate: "+3w",
-        changeMonth: true,
-        numberOfMonths: 2,
-        dateFormat: "yy-mm-dd",
-        showButtonPanel: true
-      })
-      .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
-      });
+          beforeShowDay: function (date) {
+              let  day = date.getDay();
+              if (day == 0 )
+              {
+                        return [true, "markholiday"];
+              }
+              else
+                      {
+                          let formattedDate = jQuery.datepicker.formatDate("yy-mm-dd", date)
+                          return [false,(not_available.indexOf(formattedDate) == -1)?"":"markholiday"];
+                      }
 
-    function getDate( element ) {
-      var date;
-      try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
-      } catch( error ) {
-        date = null;
+          }
+       })
+       .on( "change", function() {
+           from.datepicker( "option", "maxDate", getDate( this ) );
+       });
+
+      function getDate( element ) {
+        let date;
+        try {
+          date = $.datepicker.parseDate( dateFormat, element.value );
+        } catch( error ) {
+          date = null;
+        }
+
+        return date;
       }
-      return date;
-    }
-  } );
-  </script>
+
+});
+    </script>
 
 
 {% endblock %}

@@ -9,21 +9,21 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 
 
-
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request,user)
-            if 'next' in request.POST:
-                return  redirect(request.POST.get('next'))
-            else:
-                redirect('dashboard')
-    else:
-        form = AuthenticationForm()
-
-    return render(request, 'registration/login.html', {'form':form})
+#
+# def login_view(request):
+#     if request.method == 'POST':
+#         form = AuthenticationForm(request.POST)
+#         if form.is_valid():
+#             user = form.get_user()
+#             login(request,user)
+#             if 'next' in request.POST:
+#                 return  redirect(request.POST.get('next'))
+#             else:
+#                 redirect('dashboard')
+#     else:
+#         form = AuthenticationForm()
+#
+#     return render(request, 'registration/login.html', {'form':form})
 
 
 @login_required
@@ -32,9 +32,21 @@ def dashboard(request):
     profile = get_object_or_404(Profile, user=user)
     reserve = Reservation.objects.filter(user_id=user)
 
-    return render(request, 'account/dashboard.html', {'section': 'dashboard',
-                                                      'profile': profile,
-                                                      'reservations': reserve})
+    reserv = Reservation.objects.filter(status='0')
+    acepted = Reservation.objects.filter(status='1')
+    booked_res = Reservation.objects.filter(status='3')
+
+    if user.is_staff:
+        return render(request,'account/owner_dashboard.html', {'profile': profile,
+                                                               'all_build_res': reserv,
+                                                               'all_acepted_res': acepted,
+                                                               'booked_res': booked_res
+
+                                                               })
+    else:
+        return render(request, 'account/dashboard.html', {'section': 'dashboard',
+                                                          'profile': profile,
+                                                          'reservations': reserve})
 
 
 def register(request):

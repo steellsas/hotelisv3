@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<H2>Owner  sąsaja</H2>
+    <table>
+
+        <td> vardas </td>  <td> {{ request.user.first_name }} </td>  </tr>
+        <td> Pavardė</td> <td> {{ request.user.last_name }}</td>   </tr>
+        <td> El. paštas </td>  <td>{{ request.user.email }}</td>   </tr>
+        <td> Telefonas</td> <td>{{ request.user.profile.phone }} </td>   </tr>
+
+    </table>
+    <h2> Jūsų rezervacija</h2>
+    <table class="cart">
+        <thead>
+        <tr>
+            <th>VArtotojas</th>
+            <th>Nuotrauka</th>
+            <th>Kambarys</th>
+            <th>Atvykimo diena</th>
+            <th>Išvykimo diena</th>
+            <th>Kaina už laikotarpį</th>
+            <th >Avansas</th>
+            <th> Statusas</th>
+            <th> Sukurta </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+                <tr>
+                {% if all_build_res  %}
+                 {% for item in all_build_res  %}
+                     <td>{{ item.user_id }}</td>
+                    <td>
+                        <img src="{% if item.room_id.first_image %}{{ item.room_id.first_image.url }}{% else %}
+                           {% static "img/no_image.png" %}{% endif %}">
+                    </td>
+                    <td>{{ item.room_id }}</td>
+                    <td>{{ item.start_day }}</td>
+                    <td> {{ item.end_day }} </td>
+                    <td> {{ item.total }} </td>
+                    <td> {{ item.advance}}</td>
+                    <td> {{ item.status}}</td>
+                     <td> {{ item.created}}</td>
+                       <td> {{ item.id}}</td>
+
+                     <td>
+
+                        <form action="{% url "booking:update_status" item.id %}" method="post">
+                           <input type="submit" value="Update">
+                           {% csrf_token %}
+                        </form>
+                     </td>
+                </tr>
+                {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td> Nėra rezervacijų.</td>
+                    </tr>
+
+                {%  endif %}
+        </tbody>
+
+    </table>
+    <h2> Patvirtintos  laukia rezervacijos  rezervacija</h2>
+    <table class="cart">
+        <thead>
+        <tr>
+            <th>VArtotojas</th>
+            <th>Nuotrauka</th>
+            <th>Kambarys</th>
+            <th>Atvykimo diena</th>
+            <th>Išvykimo diena</th>
+            <th>Kaina už laikotarpį</th>
+            <th >Avansas</th>
+            <th> Statusas</th>
+            <th> Sukurta </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+                <tr>
+                {% if all_acepted_res  %}
+                 {% for item in all_acepted_res  %}
+                     <td>{{ item.user_id }}</td>
+                    <td>
+                        <img src="{% if item.room_id.first_image %}{{ item.room_id.first_image.url }}{% else %}
+                           {% static "img/no_image.png" %}{% endif %}">
+                    </td>
+                    <td>{{ item.room_id }}</td>
+                    <td>{{ item.start_day }}</td>
+                    <td> {{ item.end_day }} </td>
+                    <td> {{ item.total }} </td>
+                    <td> {{ item.advance}}</td>
+                    <td> {{ item.status}}</td>
+                     <td> {{ item.created}}</td>
+                     <td> {{ item.id}}</td>
+
+{#                     <td>#}
+{##}
+{#                        <form action="{% url "booking:update_status" item.id %}" method="post">#}
+{#                           <input type="submit" value="Apmoketa">#}
+{#                           {% csrf_token %}#}
+{#                        </form>#}
+{#                     </td>#}
+                </tr>
+                {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td> Nėra rezervacijų.</td>
+                    </tr>
+
+                {%  endif %}
+        </tbody>
+
+    </table>
+
+
+     </table>
+    <h2> Uzsakyti apmoketi </h2>
+    <table class="cart">
+        <thead>
+        <tr>
+            <th>VArtotojas</th>
+            <th>Nuotrauka</th>
+            <th>Kambarys</th>
+            <th>Atvykimo diena</th>
+            <th>Išvykimo diena</th>
+            <th>Kaina už laikotarpį</th>
+            <th >Avansas</th>
+            <th> Statusas</th>
+            <th> Sukurta </th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+                <tr>
+                {% if booked_res  %}
+                 {% for item in booed_res  %}
+                     <td>{{ item.user_id }}</td>
+                    <td>
+                        <img src="{% if item.room_id.first_image %}{{ item.room_id.first_image.url }}{% else %}
+                           {% static "img/no_image.png" %}{% endif %}">
+                    </td>
+                    <td>{{ item.room_id }}</td>
+                    <td>{{ item.start_day }}</td>
+                    <td> {{ item.end_day }} </td>
+                    <td> {{ item.total }} </td>
+                    <td> {{ item.advance}}</td>
+                    <td> {{ item.status}}</td>
+                     <td> {{ item.created}}</td>
+                     <td> {{ item.id}}</td>
+
+{#                     <td>#}
+{#                        <form action="{% url "booking:update_status" item.id %}" method="post">#}
+{#                           <input type="submit" value="Update">#}
+{#                           {% csrf_token %}#}
+{#                        </form>#}
+{#                     </td>#}
+                </tr>
+                {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td> Nėra rezervacijų.</td>
+                    </tr>
+
+                {%  endif %}
+        </tbody>
+
+    </table>
+{% endblock %}

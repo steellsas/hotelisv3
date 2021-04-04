@@ -18,15 +18,19 @@
     <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.css' %}" rel="stylesheet">
     <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.css' %}" rel="stylesheet">
 {#     <link href="{% static 'js/jquery-ui-1.12.1/jquery-ui.theme.min.css' %}" rel="stylesheet">#}
-{##}
 
-{##}
      <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
 {#    <script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>#}
 
 
-         <link href="{% static "css/base.css" %}" rel="stylesheet">
-
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+      <style>
+        .markholiday .ui-state-default
+        {
+            background-color:red;
+            color: darkblue;
+        }
+    </style>
 </head>
 <body>
 <div id="header">
@@ -38,8 +42,8 @@
             <a href="{% url 'rooms:room_list' %} ">Room List</a>
         </li>
 
-        <li {% if section == "About" %}class="selected"{% endif %}>
-            <a href="#">Apie mus</a>
+        <li class="selected">
+            <a href="{% url 'booking:my_calender' %}"> calender mus</a>
         </li>
 
         {% if request.user.is_authenticated %}
@@ -54,8 +58,8 @@
                     Hello {{ request.user.first_name }},
                     <a href="{% url 'logout' %}">Logout</a>
                 {% else %}
-                     <a href="{% url 'custom_login' %}?next={{request.path}}">Login</a>
-{#                    <a href="{% url "login" %}">Log-in</a>#}
+{#                     <a href="{% url 'custom_login' %}?next={{request.path}}">Login</a>#}
+                    <a href="{% url "login" %}">Log-in</a>
                 {% endif %}
           </span>
     </ul>

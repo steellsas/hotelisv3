@@ -38,6 +38,7 @@ def room_detail(request, id, slug):
     imags = RoomImage.objects.filter(room_id=room.id)
     prop = room.properties1.all()
     reservation_days = AddReserveDayForm()
+    un_lst = ["2021-04-01", "2021-04-10", "2021-04-03", "2021-04-11"]
 
 
 
@@ -46,6 +47,7 @@ def room_detail(request, id, slug):
                   {'room': room,
                    'imags': imags,
                    'reservation_days': reservation_days,
-                   'prop': prop
+                   'prop': prop,
+                   'mydate': un_lst
                    })
 
