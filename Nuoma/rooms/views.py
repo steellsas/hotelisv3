@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rooms.models import Room, Category, RoomImage
-from booking.forms import AddReserveDayForm,ReservationForm
+from booking.forms import AddReserveDayForm, ReservationForm
 
 
 def get_room_id(object):
@@ -34,13 +34,17 @@ def room_detail(request, id, slug):
                              id=id,
                              slug=slug,
                              visible=True)
-
+    # i6saugoti sesion Id
     imags = RoomImage.objects.filter(room_id=room.id)
     prop = room.properties1.all()
     reservation_days = AddReserveDayForm()
-    un_lst = ["2021-04-01", "2021-04-10", "2021-04-03", "2021-04-11"]
 
+    un_lst = "2021-04-18,2021-04-22,2021-04-23"
 
+    # roomas =request.session.get('room_id')
+    # request.session['roomas'] =id
+    #
+    # print('kambario id', roomas)
 
     return render(request,
                   'hotel/rooms/detail.html',

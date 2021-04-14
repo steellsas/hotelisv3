@@ -9,8 +9,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('cart/', include('cart.urls', namespace='cart')),
+    path('book/', include('booking.urls', namespace='booking')),
     path('', include('rooms.urls', namespace='rooms')),
-    path('book/', include('booking.urls', namespace='booking'))
+    # for gmail and facebook
+    path('social-auth/',include('social_django.urls', namespace='social')),
 
 ]
 

@@ -44,14 +44,18 @@
                     <td> {{ item.advance}}</td>
                     <td> {{ item.status}}</td>
                      <td> {{ item.created}}</td>
-                       <td> {{ item.id}}</td>
+{#                       <td> {{ form }}</td>#}
 
-                     <td>
+
+                     <td
 
                         <form action="{% url "booking:update_status" item.id %}" method="post">
+
+                            {{ form.reservation_status }}
                            <input type="submit" value="Update">
                            {% csrf_token %}
                         </form>
+
                      </td>
                 </tr>
                 {% endfor %}
@@ -99,13 +103,13 @@
                      <td> {{ item.created}}</td>
                      <td> {{ item.id}}</td>
 
-{#                     <td>#}
-{##}
-{#                        <form action="{% url "booking:update_status" item.id %}" method="post">#}
-{#                           <input type="submit" value="Apmoketa">#}
-{#                           {% csrf_token %}#}
-{#                        </form>#}
-{#                     </td>#}
+                     <td>
+
+                        <form action="{% url "booking:update_status_paid" item.id %}" method="post">
+                           <input type="submit" value="Apmoketa">
+                           {% csrf_token %}
+                        </form>
+                     </td>
                 </tr>
                 {% endfor %}
                     {% else %}
@@ -140,7 +144,7 @@
 
                 <tr>
                 {% if booked_res  %}
-                 {% for item in booed_res  %}
+                 {% for item in booked_res  %}
                      <td>{{ item.user_id }}</td>
                     <td>
                         <img src="{% if item.room_id.first_image %}{{ item.room_id.first_image.url }}{% else %}

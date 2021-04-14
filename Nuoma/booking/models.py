@@ -13,12 +13,12 @@ class Reservation(models.Model):
 
 
     STATUS =(
-        (0, "Builded"),
-        (1, "Accepted"),
-        (3, "Canceled"),
-        (4, "Paid"),
-        (5, "Confirmed"),
-        (6,  "Ended"),
+        (0, "Registruota"),
+        (1, "Patikrinta/laukia apmokejimo"),
+        (2, "Apmoketa/Užsakyta"),
+        (3, "Atvyko"),
+        (4, "Atšaukta"),
+        (5,  "archyve"),
     )
 
     user_id = models.ForeignKey(auth_user, on_delete=models.CASCADE)

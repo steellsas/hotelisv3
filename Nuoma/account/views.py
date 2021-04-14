@@ -1,11 +1,11 @@
-
-from django.shortcuts import render,get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from booking.models import Reservation
-from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
-from django.contrib.auth import login
+from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm, ChangeStatus
+from django.contrib import messages
+
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -28,21 +28,22 @@ from django.contrib.auth.forms import AuthenticationForm
 
 @login_required
 def dashboard(request):
-    user =request.user
+    user = request.user
     profile = get_object_or_404(Profile, user=user)
     reserve = Reservation.objects.filter(user_id=user)
 
     reserv = Reservation.objects.filter(status='0')
     acepted = Reservation.objects.filter(status='1')
-    booked_res = Reservation.objects.filter(status='3')
-
+    booked_res = Reservation.objects.filter(status='2')
+    form = ChangeStatus()
     if user.is_staff:
-        return render(request,'account/owner_dashboard.html', {'profile': profile,
-                                                               'all_build_res': reserv,
-                                                               'all_acepted_res': acepted,
-                                                               'booked_res': booked_res
+        return render(request, 'account/owner_dashboard.html', {'profile': profile,
+                                                                'all_build_res': reserv,
+                                                                'all_acepted_res': acepted,
+                                                                'booked_res': booked_res,
+                                                                 'form':form
 
-                                                               })
+                                                                })
     else:
         return render(request, 'account/dashboard.html', {'section': 'dashboard',
                                                           'profile': profile,
@@ -53,7 +54,6 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
@@ -74,7 +74,7 @@ def register(request):
 def edit(request):
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
-        profile_form = ProfileEditForm(instance=request.user.profile,data=request.POST,files=request.FILES)
+        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -84,4 +84,4 @@ def edit(request):
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
-    return render(request,'account/edit.html',{'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})

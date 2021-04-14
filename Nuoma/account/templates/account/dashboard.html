@@ -9,7 +9,7 @@
         <td> Pavardė</td> <td> {{ request.user.last_name }}</td>   </tr>
         <td> El. paštas </td>  <td>{{ request.user.email }}</td>   </tr>
         <td> Telefonas</td> <td>{{ request.user.profile.phone }} </td>   </tr>
-
+         <td></td><td> <button>Koreguoti </button></td>
     </table>
     <h2> Jūsų rezervacija</h2>
     <table class="cart">
@@ -39,6 +39,7 @@
                     <td> {{ item.total }} </td>
                     <td> {{ item.advance}}</td>
                     <td> {{ item.status}}</td>
+                     <td> {{ item.get_status_display}}</td>
                 </tr>
                 {% endfor %}
                     {% else %}

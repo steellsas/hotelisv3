@@ -33,3 +33,15 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('description', 'phone')
+
+
+STATUS_CHOICES = (
+    ("1", "Patvirtinti"),
+    ("2", "Apmoketa"),
+    ("-1", "At6aukta"),
+    ("4", "Atvyko"),
+
+)
+class ChangeStatus(forms.Form):
+    reservation_status = forms.TypedChoiceField(choices=STATUS_CHOICES)
+

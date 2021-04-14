@@ -3,11 +3,18 @@
 {% block title %}
     {% if category %}{{ room.title }}{% else %}Rooms{% endif %}
 {% endblock %}
+    {% block header %}
+     <link  href="{% static 'hotel-datepicker-4.0.0/dist/css/hotel-datepicker.css' %} " rel="stylesheet">
+    {% endblock %}
 
 {% block content %}
     <div class="room-detail">
-        <img src="{% if room.first_image %}{{ room.first_image.url }}{% else %}
-    {% static "img/no_image.png" %}{% endif %}">
+
+       <div class="room-datail-image">
+             <img src="{% if room.first_image %}{{ room.first_image.url }}{% else %}
+              {% static "img/no_image.png" %}{% endif %}">
+       </div>
+
         <h2>{{ room.title }}</h2>
         <h3>
             <a href="{{ room.category.get_absolute_url }}">
@@ -20,8 +27,9 @@
         {% for property in prop %}
             <ul>  {{ property }} </ul>
         {% endfor %}
-
-            <form action=" {% url 'booking:reservation_create' room.id %}" method="post">
+    </div>
+          <div>
+             <form action=" {% url 'booking:reservation_create' room.id %}" method="post">
                 {{ reservation_days }}
                 {% csrf_token %}
 {#                 {% if request.GET.next %}#}
@@ -30,117 +38,108 @@
                 <input type="submit" value="Pasirinkite">
             </form>
 
- </div>
+          </div>
 
 
-{#    <script>#}
-{##}
-{#    $( function() {#}
-{#    let dateFormat = "yy-mm-dd",#}
-{#      from = $( "#id_start_day" )#}
-{#        .datepicker({#}
-{#          inline: true,#}
-{#          showOn: "both",#}
-{#          defaultDate: "+1w",#}
-{#          changeMonth: true,#}
-{#          numberOfMonths: 2,#}
-{#          dateFormat: "yy-mm-dd",#}
-{#          showButtonPanel: true,#}
-{##}
-{#        })#}
-{#        .on( "change", function() {#}
-{#          to.datepicker( "option", "minDate", getDate( this ) );#}
-{#        }),#}
-{#      to = $( "#id_end_day" ).datepicker({#}
-{#        defaultDate: "+3w",#}
-{#        changeMonth: true,#}
-{#        numberOfMonths: 2,#}
-{#        dateFormat: "yy-mm-dd",#}
-{#        showButtonPanel: true#}
-{#      })#}
-{#      .on( "change", function() {#}
-{#        from.datepicker( "option", "maxDate", getDate( this ) );#}
-{#      });#}
-{##}
-{#    function getDate( element ) {#}
-{#      var date;#}
-{#      try {#}
-{#        date = $.datepicker.parseDate( dateFormat, element.value );#}
-{#      } catch( error ) {#}
-{#        date = null;#}
-{#      }#}
-{#      return date;#}
-{#    }#}
-{#  } );#}
-{#  </script>#}
-{#    #}
+{#  {{mydate}}#}
 
- <script>
- $(document).ready(function () {
 
-      let holiday = ["2021-05-01","2021-05-02","2021-05-03"]
-      let not_available = '{{ mydate }}'
 
-      let dateFormat = "yy-mm-dd",
-       from = $( "#id_start_day" )
-          .datepicker({
-            defaultDate: "+1w",
-            changeMonth: true,
-            numberOfMonths: 3,
-            dateFormat: "yy-mm-dd",
-            beforeShowDay: function (date) {
-                  let  day = date.getDay();
-                  if (day == 0 )
-                  {
-                            return [true, "markholiday"];
-                  }
-                  else
-                          {
-                              let formattedDate = jQuery.datepicker.formatDate("yy-mm-dd", date)
-                              return [false,(not_available.indexOf(formattedDate) == -1)?"":"markholiday"];
-                          }
-              }
-          })
-          .on( "change", function() {
-        to.datepicker( "option", "minDate", getDate( this ) );
-      }),
-      //     to
-       to = $( "#id_end_day" ).datepicker({
-          defaultDate: "+1w",
-          changeMonth: true,
-          numberOfMonths: 3,
-          dateFormat: "yy-mm-dd",
-          beforeShowDay: function (date) {
-              let  day = date.getDay();
-              if (day == 0 )
-              {
-                        return [true, "markholiday"];
-              }
-              else
-                      {
-                          let formattedDate = jQuery.datepicker.formatDate("yy-mm-dd", date)
-                          return [false,(not_available.indexOf(formattedDate) == -1)?"":"markholiday"];
-                      }
+<script>
 
-          }
-       })
-       .on( "change", function() {
-           from.datepicker( "option", "maxDate", getDate( this ) );
-       });
+let  not_available = '{{ mydate }}'
+let fLen = not_available.length;
+let not_dates =['2021-04-21'];
+not_dates = not_available
 
-      function getDate( element ) {
-        let date;
-        try {
-          date = $.datepicker.parseDate( dateFormat, element.value );
-        } catch( error ) {
-          date = null;
-        }
 
-        return date;
-      }
+const fruits = not_available.split(',');
 
+
+let no_available = [
+        '2021-04-12',
+        '2021-04-19',
+        '2021-04-22',
+        '2021-05-02']
+document.write(fruits)
+let input = document.getElementById('id_date_range');
+let datepicker = new HotelDatepicker(input, {
+     disabledDates: fruits,
+     enableCheckout: true
 });
-    </script>
+
+</script>
+
+<!-- <script>-->
+<!-- $(document).ready(function () {-->
+
+
+<!--      let not_available = '{{ mydate }}'-->
+
+<!--      let dateFormat = "yy-mm-dd",-->
+<!--       from = $( "#id_start_day" )-->
+<!--          .datepicker({-->
+<!--            defaultDate: "+1w",-->
+<!--            changeMonth: true,-->
+<!--            numberOfMonths: 2,-->
+<!--            dateFormat: "yy-mm-dd",-->
+<!--             constrainInput: true,-->
+<!--               minDate: '2',-->
+
+<!--            beforeShowDay: function (date) {-->
+<!--                  let  day = date.getDay();-->
+<!--                  let formattedDate = jQuery.datepicker.formatDate("yy-mm-dd", date)-->
+<!--                  if (not_available.indexOf(formattedDate) == -1)-->
+<!--                  {-->
+
+<!--                            return [true,(not_available.indexOf(formattedDate) == -1)?"":"markholiday"];-->
+<!--                  }-->
+<!--                  else-->
+<!--                          {-->
+<!--                              return [false, "markholiday"];-->
+<!--                          }-->
+<!--              }-->
+<!--          })-->
+<!--          .on( "change", function() {-->
+<!--        to.datepicker( "option", "minDate", getDate( this ) );-->
+<!--      }),-->
+<!--      //     to-->
+<!--       to = $( "#id_end_day" ).datepicker({-->
+<!--          defaultDate: "+1w",-->
+<!--          changeMonth: true,-->
+<!--          numberOfMonths: 2,-->
+<!--          dateFormat: "yy-mm-dd",-->
+
+<!--          beforeShowDay: function (date) {-->
+<!--              let  day = date.getDay();-->
+<!--              let formattedDate = jQuery.datepicker.formatDate("yy-mm-dd", date)-->
+<!--              if (not_available.indexOf(formattedDate) == -1)-->
+<!--              {-->
+
+<!--                        return [true,(not_available.indexOf(formattedDate) == -1)?"":"markholiday"];-->
+<!--              }-->
+<!--              else-->
+<!--                      {-->
+<!--                          return [false, "markholiday"];-->
+<!--                      }-->
+<!--          }-->
+<!--       })-->
+<!--       .on( "change", function() {-->
+<!--           from.datepicker( "option", "maxDate", getDate( this ) );-->
+<!--       });-->
+
+<!--      function getDate( element ) {-->
+<!--        let date;-->
+<!--        try {-->
+<!--          date = $.datepicker.parseDate( dateFormat, element.value );-->
+<!--        } catch( error ) {-->
+<!--          date = null;-->
+<!--        }-->
+
+<!--        return date;-->
+<!--      }-->
+<!--});-->
+<!--    </script>-->
 
 
 {% endblock %}

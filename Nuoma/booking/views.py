@@ -1,13 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from datetime import date
+from datetime import date, datetime
 from rooms.models import Room
 from .models import Reservation
-from .forms import AddReserveDayForm
+from .forms import AddReserveDayForm, TestEmailForm
+
+
+from django.core.mail import send_mail
+from django.http import HttpResponse
 
 import calendar
 from calendar import HTMLCalendar
 from datetime import date
+
 
 def count_day_range(object):
 
@@ -40,19 +45,22 @@ def reservation_create(request, room_id):
 
         if form.is_valid():
             cd = form.cleaned_data
+            dates= cd['date_range'].split(' - ')
             total_price = 0
             advans = 0
+            star_d = datetime.strptime(dates[0], '%Y-%m-%d')
+            star_n = datetime.strptime(dates[1], '%Y-%m-%d')
             res = Reservation(user_id=useris,
                               room_id=room,
-                              start_day=cd['start_day'],
-                              end_day=cd['end_day'],
+                              start_day= star_d,
+                              end_day=star_n,
                               total=total_price,
                               advance=advans
             )
             range_day = count_day_range(res)
             res.advance = room.price
             res.total = count_total(range_day, room.price)
-            # res.save()
+            res.save()
             return render(request, 'accountas/created.html', {'res': 'res' })
     else:
         form = AddReserveDayForm()
@@ -60,10 +68,32 @@ def reservation_create(request, room_id):
 
 
 def update_status(request, res_id):
-
+    print(status =request.POST)
     reservation =get_object_or_404(Reservation, pk=res_id)
-    reservation.status = 1
+    reservation.status = 0
+
+    subject= 'hello'
+    message ='Rezervacija patvirtinta'
+    send_mail(subject, message, 'aplienius@gmail.com',
+              ['aplienius@gmail.com'])
+
     reservation.save()
+
+    return redirect('dashboard')
+
+
+def update_status_paid(request, res_id):
+    if request.method =='POST':
+
+        reservation =get_object_or_404(Reservation, pk=res_id)
+        reservation.status = 2
+        # send mail   reservation is booked  paid send order with reservation
+        subject = 'hello'
+        message = 'Uzsakymas priimtas, apmoketas'
+        send_mail(subject, message, 'aplienius@gmail.com',
+              ['aplienius@gmail.com'])
+        reservation.save()
+
     return redirect('dashboard')
 
 
@@ -71,57 +101,30 @@ def show_calendar(request):
     my_month =date.today().month
     start_year = date.today().year
     cal = HTMLCalendar().formatmonth(start_year, my_month)
-    return render(request, 'mycalendar.html', {'my_calendar': cal})
+    pirmas= request.session['room_id']
+    return render(request, 'mycalendar.html', {'my_calendar': cal, 'tet':pirmas})
 
-#
-# def calendar(request, year='2021', month='01'):
-#   my_workouts = Workouts.objects.order_by('my_date').filter(
-#     my_date__year=year, my_date__month=month
-#   )
-#   cal = WorkoutCalendar(my_workouts).formatmonth(year, month)
-#   return render_to_response('mycalendar.html, {'calendar': mark_safe(cal)})
 
-# -------------------- calendar for test
-#
-# class QuerysetCalendar(HTMLCalendar):
-#
-#     def __init__(self, queryset, field):
-#         self.field = field
-#         super(QuerysetCalendar, self).__init__()
-#         self.queryset_by_date = self.group_by_day(queryset)
-#
-#     def formatday(self, day, weekday):
-#         if day != 0:
-#             cssclass = self.cssclasses[weekday]
-#             if date.today() == date(self.year, self.month, day):
-#                 cssclass += ' today'
-#             if day in self.queryset_by_date:
-#                 cssclass += ' filled'
-#                 body = ['<ul>']
-#
-#                 for item in self.queryset_by_date[day]:
-#                     body.append('<li>')
-#                     body.append('<a href="%s">' % item.get_absolute_url())
-#                     body.append(esc(item))
-#                     body.append('</a></li>')
-#                 body.append('</ul>')
-#                 return self.day_cell(cssclass, '%d %s' % (day, ''.join(body)))
-#             return self.day_cell(cssclass, day)
-#         return self.day_cell('noday', ' ')
-#
-#
-#     def formatmonth(self, year, month):
-#         self.year, self.month = year, month
-#         return super(QuerysetCalendar, self).formatmonth(year, month)
-#
-#     def group_by_day(self, queryset):
-#         field = lambda item: getattr(item, self.field).day
-#         return dict(
-#             [(day, list(items)) for day, items in groupby(queryset, field)]
-#         )
-#
-#     def day_cell(self, cssclass, body):
-#         return '<td class="%s">%s</td>' % (cssclass, body)
-#
-#
-#
+# _________________________  testform  book/testmail
+
+
+def test_share(request):
+    sent = False
+    if request.method =='POST':
+
+        form = TestEmailForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            #send mail
+            subject = f"{cd['name']} recommends you read "
+            message =  f"{cd['name']}\'s comments: {cd['comments']}"
+            send_mail(subject, message, 'aplienius@gmail.com',
+                      [cd['to']])
+            sent = True
+
+    else:
+        form = TestEmailForm()
+
+    return render(request, 'test_email.html', {'form': form, 'sent': sent})
+
+

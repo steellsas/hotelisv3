@@ -4,26 +4,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
-
-       <!--Import Google Icon Font-->
-{#  1    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">#}
-      <!--Import materialize.css-->
-{#   2   <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"  media="screen,projection"/>#}
-
-
- <!--Let browser know website is optimized for mobile-->
-{#      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>#}
-
-    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.css' %}" rel="stylesheet">
-    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.css' %}" rel="stylesheet">
-{#     <link href="{% static 'js/jquery-ui-1.12.1/jquery-ui.theme.min.css' %}" rel="stylesheet">#}
-
-     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-{#    <script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>#}
-
-
+    <title>{% block title %} {% endblock %}</title>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
+ <!--Let browser know website is optimized for mobile-->
+<!--{#      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>#}-->
+
+{#    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.css' %}" rel="stylesheet">#}
+<!--    <link href="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.structure.css' %}" rel="stylesheet">-->
+
+{#<!--     <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>-->#}
+<!--{#   <script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>#}-->
+
+     <link  href="{% static 'hotel-datepicker-4.0.0/dist/css/hotel-datepicker.css' %} " rel="stylesheet">
+    {% block header %}
+
+    {% endblock %}
+    <script src="{% static 'fecha-4.2.1\dist\fecha.min.js' %}"></script>
+    <script src="{% static 'hotel-datepicker-4.0.0/dist/js/hotel-datepicker.min.js' %}"></script>
+
+
+
       <style>
         .markholiday .ui-state-default
         {
@@ -64,16 +64,24 @@
           </span>
     </ul>
 </div>
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+               <li class="{{ message.tags }}">
+                       {{ message|safe }}
+                   <a href="#" class="close">x</a>
+               </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 <div>
         {% block content %}
         {% endblock %}
 
 </div>
-<!--JavaScript at end of body for optimized loading-->
-{#      <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"> </script>#}
 
+<!--<script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>-->
 
-<script src="{% static 'js/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
 </body>
 </html>
 
